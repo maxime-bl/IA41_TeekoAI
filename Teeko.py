@@ -3,6 +3,17 @@ from copy import deepcopy
 
 class Teeko:  
 
+    def count_pieces(self, state):
+        grid = state[1]
+        nb_pieces = [0,0]
+        for x in range(5):
+            for y in range(5):
+                if grid[x][y] > 0:
+                    nb_pieces[0] = nb_pieces[0] + 1
+                elif grid[x][y] < 0:
+                    nb_pieces[1] = nb_pieces[1] + 1
+        return nb_pieces
+
     def eval(self, state):
         grid = state[1]
 
@@ -10,6 +21,7 @@ class Teeko:
         h_line_completion = [0,0]
         v_line_completion = [0,0]
         d_line_completion = [0,0]
+        dist_from_center = [0,0]
 
         # checks for squares
         for i in range(4):
@@ -43,6 +55,22 @@ class Teeko:
 
         # checks for diagonal lines
 
+
+        # checks the average distance to mid
+
+        dfc = [0,0]
+        nb_pieces = [0,0]
+        for x in range(5):
+            for y in range(5):
+                if grid[x][y] > 0:
+                    nb_pieces[0] = nb_pieces[0] + 1
+                    dfc[0] = dfc[0] + ((2-x)**2+(2-y)**2)**0.5
+                elif grid[x][y] < 0:
+                    nb_pieces[1] = nb_pieces[1] + 1
+                    dfc[0] = dfc[0] + ((2-x)**2+(2-y)**2)**0.5
+        dist_from_center = [dfc[0] / nb_pieces[0] , dfc[1] / nb_pieces[1]]
+        # print(dist_from_center[0],dist_from_center[1])
+        # print(nb_pieces)
                     
                 
         # print(square_completion)
@@ -50,7 +78,7 @@ class Teeko:
         # print(v_line_completion)
         score = 0
         for i in range(2):
-            score = score + (2*square_completion[i] + 1*h_line_completion[i] + v_line_completion[i] + d_line_completion[i]) * pow(-1,i)
+            score = score + (2*square_completion[i] + 1*h_line_completion[i] + v_line_completion[i] + d_line_completion[i] - 0.25*dist_from_center[i]) * pow(-1,i)
         for i in range(2):
             if (square_completion[i]==4 or h_line_completion[i]==4 or v_line_completion[i]==4 or d_line_completion[i]==4):
                 score = 10000 * pow(-1,i)
@@ -66,6 +94,26 @@ class Teeko:
         #if winning state-> INFINITY
         #if lossing state -> - INFINITY
         #else -> polynomial function with plenty of coefficients
+
+    def next_states_beginning(self, state):
+        current_player, grid = state
+        res = []
+
+         # for each cell on the grid
+        for x in range(5):
+            for y in range(5):
+
+                # if the cell is not occupied by a player
+                    if grid[x][y] == 0:
+                        new_grid = deepcopy(grid)
+                        new_grid[x][y] = current_player
+                        new_state = ((-current_player, new_grid))
+                        res.append(new_state)
+        return res
+
+                    
+
+
 
 
     # generates all the possible next states from the current one
@@ -107,7 +155,7 @@ class Teeko:
                     print("0|", end="")
             print("")
 
-stt = (1, [[0,0,0,1,0],[0,1,-1,-1,0],[0,-1,0,1,0],[0,0,1,0,0],[0,0,0,0,-1]])
+stt = (1, [[0,1,0,0,-1],[0,0,0,0,0],[0,1,0,0,0],[0,0,0,0,0],[0,0,0,0,0]])
 teeko = Teeko()
 teeko.display_state(stt)
 # print(teeko.eval(stt))
