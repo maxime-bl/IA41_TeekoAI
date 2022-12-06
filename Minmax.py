@@ -6,6 +6,16 @@ MIN = -1
 
 def minmax(game, state, depth, alpha=-INFINITY, beta=INFINITY):
     # TODO implementer game over
+
+    #if game.count_pieces(state) != [4,4]:
+        
+        #TODO remplacer next_states par next_states_beginning
+
+    #else:
+
+
+         
+
     if depth == 0 or game_over:
         return (game.eval(state), state)
 

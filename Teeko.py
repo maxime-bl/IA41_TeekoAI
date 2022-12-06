@@ -55,6 +55,73 @@ class Teeko:
 
         # checks for diagonal lines
 
+        max_asc_diag = [0,0]
+        # Ascending
+        for row in range (3,5):
+            for column in range (0,2):
+
+                # Player 1
+                if grid[row][column] > 0 and grid[row - 1][column + 1] > 0 and grid[row - 2][column + 2] > 0 and grid[row - 3][column + 3] > 0:
+                    max_asc_diag[0] = 4
+
+                elif grid[row][column] > 0 and grid[row - 1][column + 1] > 0 and grid[row - 2][column + 2] > 0:
+                    max_asc_diag[0] = max(max_asc_diag[0],3)
+                    
+                elif grid[row][column] > 0 and grid[row - 1][column + 1] > 0:
+                    max_asc_diag[0] = max(max_asc_diag[0],2)
+
+                else:
+                    max_asc_diag[0] = max(max_asc_diag[0],1)
+
+                # Player 2
+                if grid[row][column] < 0 and grid[row - 1][column + 1] < 0 and grid[row - 2][column + 2] < 0 and grid[row - 3][column + 3] < 0:
+                    max_asc_diag[1] = 4
+                
+                elif grid[row][column] < 0 and grid[row - 1][column + 1] < 0 and grid[row - 2][column + 2] < 0:
+                    max_asc_diag[1] = max(max_asc_diag[1],3)
+                
+                elif grid[row][column] < 0 and grid[row - 1][column + 1] < 0:
+                    max_asc_diag[1] = max(max_asc_diag[1],2)
+
+                else:
+                    max_asc_diag[1] = max(max_asc_diag[1],1)
+
+        max_desc_diag = [0,0]
+        # Descending
+        for row in range (3,5):
+            for column in range (3,5):
+
+                # Player 1
+                if grid[row][column] > 0 and grid[row - 1][column - 1] > 0 and grid[row - 2][column - 2] > 0 and grid[row - 3][column - 3] > 0:
+                    max_desc_diag[0] = 4
+
+                elif grid[row][column] > 0 and grid[row - 1][column - 1] > 0 and grid[row - 2][column - 2] > 0:
+                    max_desc_diag[0] = max(max_desc_diag[0],3)
+
+                elif grid[row][column] > 0 and grid[row - 1][column - 1] > 0:
+                    max_desc_diag[0] = max(max_desc_diag[0],2)
+
+                else:
+                    max_desc_diag[0] = max(max_desc_diag[0],1)
+
+                # Player 2
+                if grid[row][column] < 0 and grid[row - 1][column - 1] < 0 and grid[row - 2][column - 2] < 0 and grid[row - 3][column - 3] < 0:
+                    max_desc_diag[1] = 4
+                
+                elif grid[row][column] < 0 and grid[row - 1][column - 1] < 0 and grid[row - 2][column - 2] < 0:
+                    max_desc_diag[1] = max(max_desc_diag[1],3)
+                
+                elif grid[row][column] < 0 and grid[row - 1][column - 1] < 0:
+                    max_desc_diag[1] = max(max_desc_diag[1],2)
+
+                else:
+                    max_desc_diag[1] = max(max_desc_diag[1],1)
+
+        d_line_completion[0] = max(max_desc_diag[0],max_asc_diag[0])
+        d_line_completion[1] = max(max_desc_diag[1],max_asc_diag[1])
+
+        
+
 
         # checks the average distance to mid
 
@@ -72,7 +139,7 @@ class Teeko:
         # print(dist_from_center[0],dist_from_center[1])
         # print(nb_pieces)
                     
-                
+        print(d_line_completion[0])        
         # print(square_completion)
         # print(h_line_completion)
         # print(v_line_completion)
@@ -155,9 +222,10 @@ class Teeko:
                     print("0|", end="")
             print("")
 
-stt = (1, [[0,1,0,0,-1],[0,0,0,0,0],[0,1,0,0,0],[0,0,0,0,0],[0,0,0,0,0]])
+stt = (1, [[0,0,1,0,-1],[1,0,-1,0,0],[-1,0,1,0,0],[0,1,0,1,-1],[0,-1,0,0,0]])
 teeko = Teeko()
 teeko.display_state(stt)
+
 # print(teeko.eval(stt))
 # for ans in teeko.next_states(stt):
 #     teeko.display_state(ans)
