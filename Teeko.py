@@ -5,6 +5,7 @@ class Teeko:
 
     def count_pieces(self, state):
         grid = state[1]
+
         nb_pieces = [0,0]
         for x in range(5):
             for y in range(5):
@@ -149,7 +150,7 @@ class Teeko:
         # print(dist_from_center[0],dist_from_center[1])
         # print(nb_pieces)
                     
-        print(d_line_completion[0]) 
+        #print(d_line_completion[0]) 
         #teeko.display_state(state)       
         # print(square_completion)
         # print(h_line_completion)
@@ -229,7 +230,7 @@ class Teeko:
                     print("0|", end="")
             print("")
 
-stt = (1, [[0,1,0,0,0],[0,0,1,-1,0],[0,1,0,0,0],[0,0,0,1,0],[-1,0,-1,-1,0]])
+stt = (1, [[0,0,0,1,0],[0,0,-1,-1,-1],[0,-1,1,1,0],[0,0,0,1,0],[0,0,0,0,0]])
 teeko = Teeko()
 teeko.display_state(stt)
 
@@ -241,7 +242,7 @@ teeko.display_state(stt)
 # print(f"\n{len(teeko.next_states(stt))}")
 # for e in teeko.next_states(stt):
 #     print(teeko.eval(e))
-score, state2 = minmax(teeko, stt, 2, False)
+score, state2 = minmax(teeko, stt, 4, False)
 
 teeko.display_state(state2)
 print(score)
