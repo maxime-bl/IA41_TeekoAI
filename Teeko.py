@@ -54,75 +54,85 @@ class Teeko:
                 v_line_completion = [max(v_line_completion[e],vlc[e]) for e in range(2)]
 
         # checks for diagonal lines
-
         max_asc_diag = [0,0]
+
         # Ascending
         for row in range (3,5):
             for column in range (0,2):
 
-                # Player 1
+                # Check for 4 in a row ascending
                 if grid[row][column] > 0 and grid[row - 1][column + 1] > 0 and grid[row - 2][column + 2] > 0 and grid[row - 3][column + 3] > 0:
                     max_asc_diag[0] = 4
-
-                elif grid[row][column] > 0 and grid[row - 1][column + 1] > 0 and grid[row - 2][column + 2] > 0:
-                    max_asc_diag[0] = max(max_asc_diag[0],3)
-                    
-                elif grid[row][column] > 0 and grid[row - 1][column + 1] > 0:
-                    max_asc_diag[0] = max(max_asc_diag[0],2)
-
-                else:
-                    max_asc_diag[0] = max(max_asc_diag[0],1)
-
-                # Player 2
+                
                 if grid[row][column] < 0 and grid[row - 1][column + 1] < 0 and grid[row - 2][column + 2] < 0 and grid[row - 3][column + 3] < 0:
                     max_asc_diag[1] = 4
+
+        for row in range (2,5):
+            for column in range (0,3):
                 
-                elif grid[row][column] < 0 and grid[row - 1][column + 1] < 0 and grid[row - 2][column + 2] < 0:
+                # Check for 3 in a row ascending
+                if grid[row][column] > 0 and grid[row - 1][column + 1] > 0 and grid[row - 2][column + 2] > 0:
+                    max_asc_diag[0] = max(max_asc_diag[0],3)
+
+                if grid[row][column] < 0 and grid[row - 1][column + 1] < 0 and grid[row - 2][column + 2] < 0:
                     max_asc_diag[1] = max(max_asc_diag[1],3)
+
+        for row in range (1,5):
+            for column in range (0,4):   
                 
-                elif grid[row][column] < 0 and grid[row - 1][column + 1] < 0:
+                # Check for 2 in a row ascending
+                if grid[row][column] > 0 and grid[row - 1][column + 1] > 0:
+                    max_asc_diag[0] = max(max_asc_diag[0],2)
+
+                if grid[row][column] < 0 and grid[row - 1][column + 1] < 0:
                     max_asc_diag[1] = max(max_asc_diag[1],2)
 
-                else:
-                    max_asc_diag[1] = max(max_asc_diag[1],1)
+        # Case if 1 max ascending
+        max_asc_diag[0] = max(max_asc_diag[0],1)
+        max_asc_diag[1] = max(max_asc_diag[1],1)
 
         max_desc_diag = [0,0]
         # Descending
+
         for row in range (3,5):
             for column in range (3,5):
 
-                # Player 1
+                # Check for 4 in a row descending
                 if grid[row][column] > 0 and grid[row - 1][column - 1] > 0 and grid[row - 2][column - 2] > 0 and grid[row - 3][column - 3] > 0:
                     max_desc_diag[0] = 4
 
-                elif grid[row][column] > 0 and grid[row - 1][column - 1] > 0 and grid[row - 2][column - 2] > 0:
-                    max_desc_diag[0] = max(max_desc_diag[0],3)
-
-                elif grid[row][column] > 0 and grid[row - 1][column - 1] > 0:
-                    max_desc_diag[0] = max(max_desc_diag[0],2)
-
-                else:
-                    max_desc_diag[0] = max(max_desc_diag[0],1)
-
-                # Player 2
                 if grid[row][column] < 0 and grid[row - 1][column - 1] < 0 and grid[row - 2][column - 2] < 0 and grid[row - 3][column - 3] < 0:
                     max_desc_diag[1] = 4
+
+        for row in range (2,5):
+            for column in range (2,5):
                 
-                elif grid[row][column] < 0 and grid[row - 1][column - 1] < 0 and grid[row - 2][column - 2] < 0:
+                # Check for 3 in a row ascending
+                if grid[row][column] > 0 and grid[row - 1][column - 1] > 0 and grid[row - 2][column - 2] > 0:
+                    max_desc_diag[0] = max(max_desc_diag[0],3)
+
+                if grid[row][column] < 0 and grid[row - 1][column - 1] < 0 and grid[row - 2][column - 2] < 0:
                     max_desc_diag[1] = max(max_desc_diag[1],3)
+
+        for row in range (1,5):
+            for column in range (1,5):
                 
-                elif grid[row][column] < 0 and grid[row - 1][column - 1] < 0:
+                # Check for 2 in a row ascending
+                if grid[row][column] > 0 and grid[row - 1][column - 1] > 0:
+                    max_desc_diag[0] = max(max_desc_diag[0],2)
+
+                if grid[row][column] < 0 and grid[row - 1][column - 1] < 0:
                     max_desc_diag[1] = max(max_desc_diag[1],2)
 
-                else:
-                    max_desc_diag[1] = max(max_desc_diag[1],1)
+        # Case if 1 max descending
+        max_desc_diag[0] = max(max_desc_diag[0],1)
+        max_desc_diag[1] = max(max_desc_diag[1],1)
+                    
 
         d_line_completion[0] = max(max_desc_diag[0],max_asc_diag[0])
         d_line_completion[1] = max(max_desc_diag[1],max_asc_diag[1])
 
         
-
-
         # checks the average distance to mid
 
         dfc = [0,0]
@@ -139,7 +149,8 @@ class Teeko:
         # print(dist_from_center[0],dist_from_center[1])
         # print(nb_pieces)
                     
-        print(d_line_completion[0])        
+        print(d_line_completion[0]) 
+        #teeko.display_state(state)       
         # print(square_completion)
         # print(h_line_completion)
         # print(v_line_completion)
@@ -177,10 +188,6 @@ class Teeko:
                         new_state = ((-current_player, new_grid))
                         res.append(new_state)
         return res
-
-                    
-
-
 
 
     # generates all the possible next states from the current one
@@ -222,7 +229,7 @@ class Teeko:
                     print("0|", end="")
             print("")
 
-stt = (1, [[0,0,1,0,-1],[1,0,-1,0,0],[-1,0,1,0,0],[0,1,0,1,-1],[0,-1,0,0,0]])
+stt = (1, [[0,1,0,0,0],[0,0,1,-1,0],[0,1,0,0,0],[0,0,0,1,0],[-1,0,-1,-1,0]])
 teeko = Teeko()
 teeko.display_state(stt)
 
