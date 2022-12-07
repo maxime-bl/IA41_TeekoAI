@@ -3,6 +3,7 @@ from copy import deepcopy
 
 class Teeko:  
 
+    #test
     def count_pieces(self, state):
         grid = state[1]
         nb_pieces = [0,0]
