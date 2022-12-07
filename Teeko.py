@@ -22,7 +22,7 @@ class Teeko:
         v_line_completion = [0,0]
         d_line_completion = [0,0]
         dist_from_center = [0,0]
-
+        # test github
         # checks for squares
         for i in range(4):
             for j in range(4):
