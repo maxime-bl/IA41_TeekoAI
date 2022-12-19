@@ -1,22 +1,29 @@
 import tkinter as tk
+from Minmax import minmax
+import Teeko
+
+UNSELECTED = (-1,-1)
 
 # IA = 1, joueur = -1
 class TeekoUI:
 
     def __init__(self) -> None:
         self.grid = [[-1,-1,0,0,0],[-1,0,0,0,1],[1,0,-1,1,0],[0,0,0,1,0],[0,0,0,0,0]]
-        self.selected = (-1,-1)
+        self.selected = UNSELECTED
 
         self.root = tk.Tk()
-        self.root.configure(background='grey18')
+        self.root.configure(background='grey16')
         self.root.title("Teeko")
 
         self.can = tk.Canvas(self.root, width=508, height=508, bg='grey10', border=0)
-        self.can.grid(column=0, row= 1, padx=10, pady=10)
+        self.can.grid(column=0, row= 1, padx=10)
         self.can.bind('<Button-1>', self.on_canvas_click)
 
-        self.btn = tk.Button(text="Reset")
-        self.btn.grid(column=0, row = 0)
+        self.reset_btn = tk.Button(text="Reset", font=('Helvetica',18), pady=0)
+        self.reset_btn.grid(column=0, row = 0, pady=15)
+
+        self.label = tk.Label(self.root, text="En attente de votre coup", bg='grey16', fg='white', font=('Helvetica',20))
+        self.label.grid(column=0, row=2, pady=10)
 
         self.draw_grid()
 
@@ -24,17 +31,27 @@ class TeekoUI:
 
 
     def on_canvas_click(self, event):
+        # coordinates of the cell in the grid
         x = int(event.x/101)
         y = int(event.y/101) 
-        # print(f"coordonées: {x},{y}")
 
+        # if the player clicks on one of his pieces
         if (self.grid[x][y] == -1):
+            # unselects the selected piece
             if self.selected == (x,y):
-                self.selected = (-1,-1)
+                self.selected = UNSELECTED
+            # selects the piece
             else:
                 self.selected = (x,y)
+        
+        elif self.selected != UNSELECTED and abs(x-self.selected[0]) <= 1 and abs(y-self.selected[1]) <= 1 and self.grid[x][y] == 0:
+            # moves the selected piece to one of the adjacent cells
+            self.grid[self.selected[0]][self.selected[1]] = 0
+            self.grid[x][y] = -1
+            self.selected = UNSELECTED
+
         else:
-            self.selected = (-1,-1)
+            self.selected = UNSELECTED
 
         self.draw_grid()
 

@@ -229,19 +229,21 @@ class Teeko:
                     print("0|", end="")
             print("")
 
-stt = (1, [[0,1,0,0,0],[0,0,1,-1,0],[0,1,0,0,0],[0,0,0,1,0],[-1,0,-1,-1,0]])
-teeko = Teeko()
-teeko.print_state(stt)
 
-# print(teeko.eval(stt))
-# for ans in teeko.next_states(stt):
-#     teeko.display_state(ans)
-#     print(f"eval : {teeko.eval(ans)}\n")
-    
-# print(f"\n{len(teeko.next_states(stt))}")
-# for e in teeko.next_states(stt):
-#     print(teeko.eval(e))
-score, state2 = minmax(teeko, stt, 2, False)
+if __name__ == '__main__':
+    stt = (1, [[0,1,0,0,0],[0,0,1,-1,0],[0,1,0,0,0],[0,0,0,1,0],[-1,0,-1,-1,0]])
+    teeko = Teeko()
+    teeko.print_state(stt)
 
-teeko.print_state(state2)
-print(score)
+    # print(teeko.eval(stt))
+    # for ans in teeko.next_states(stt):
+    #     teeko.display_state(ans)
+    #     print(f"eval : {teeko.eval(ans)}\n")
+        
+    # print(f"\n{len(teeko.next_states(stt))}")
+    # for e in teeko.next_states(stt):
+    #     print(teeko.eval(e))
+    score, state2 = minmax(teeko, stt, 2, False)
+
+    teeko.print_state(state2)
+    print(score)
