@@ -215,7 +215,7 @@ class Teeko:
                                 res.append(new_state)                 
         return res
 
-    def display_state(self, state):
+    def print_state(self, state):
         player, grid = state
         print(f"{player} is playing")
         for row in grid:
@@ -231,7 +231,7 @@ class Teeko:
 
 stt = (1, [[0,1,0,0,0],[0,0,1,-1,0],[0,1,0,0,0],[0,0,0,1,0],[-1,0,-1,-1,0]])
 teeko = Teeko()
-teeko.display_state(stt)
+teeko.print_state(stt)
 
 # print(teeko.eval(stt))
 # for ans in teeko.next_states(stt):
@@ -243,5 +243,5 @@ teeko.display_state(stt)
 #     print(teeko.eval(e))
 score, state2 = minmax(teeko, stt, 2, False)
 
-teeko.display_state(state2)
+teeko.print_state(state2)
 print(score)
