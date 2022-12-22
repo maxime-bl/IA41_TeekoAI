@@ -1,6 +1,18 @@
 from Minmax import minmax, INFINITY
 from copy import deepcopy
 
+def range2D(tpl1: tuple[int, int], tpl2: tuple[int, int]) -> list:
+    x1, y1 = tpl1
+    x2, y2 = tpl2
+    
+    return_list = []
+    for x in range(x1, x2+1):
+        for y in range(y1, y2+1):
+            return_list.append((x,y))
+
+    return return_list
+
+
 class Teeko:  
 
     def count_pieces(self, state):
@@ -15,7 +27,7 @@ class Teeko:
                     nb_pieces[1] = nb_pieces[1] + 1
         return nb_pieces
 
-    def eval(self, state):
+    def eval(self, state, details=False):
         grid = state[1]
 
         square_completion = [0,0]
@@ -23,7 +35,7 @@ class Teeko:
         v_line_completion = [0,0]
         d_line_completion = [0,0]
         dist_from_center = [0,0]
-        # test github
+
         # checks for squares
         for i in range(4):
             for j in range(4):
