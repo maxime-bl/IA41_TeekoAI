@@ -1,18 +1,17 @@
 import tkinter as tk
 from Minmax import minmax
-import Teeko
+from Teeko import Teeko, PLAYER, AI
+
 
 UNSELECTED = (-1,-1)
-PLAYER = -1
-AI = 1
 EMPTY = 0
 
 class TeekoUI:
 
     def __init__(self) -> None:
-        self.teeko = Teeko.Teeko()
-        self.current_state = (PLAYER, [[1,0,1,0,0],[0,1,-1,-1,0],[1,0,-1,0,0],[-1,0,0,0,0],[0,0,0,0,0]])
-        #self.grid = [[-1,-1,0,0,0],[-1,0,0,0,1],[1,0,-1,1,0],[0,0,0,1,0],[0,0,0,0,0]]
+        self.teeko = Teeko()
+        # self.current_state = (-1, [[1, 0, 0, 0, 0], [0, 0, 0, 0, -1], [0, 1, 1, 0, 0], [0, -1, 0, 1, 0], [-1, 0, -1, 0, 0]])
+        self.current_state = (-1, [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]])
         self.selected = UNSELECTED
 
         self.root = tk.Tk()
@@ -66,7 +65,8 @@ class TeekoUI:
                     self.update_ui()
 
                     # let the AI play
-                    _, self.current_state = minmax(self.teeko, self.current_state, 5)
+                    _, new_state = minmax(self.teeko, self.current_state, 4)
+                    self.current_state = new_state
                     self.update_ui()
 
                 else:
@@ -82,13 +82,15 @@ class TeekoUI:
                     self.current_state = (AI,grid)
                     self.update_ui()
 
-
+                    # lets the AI play
+                    _, new_state = minmax(self.teeko, self.current_state, 4)
+                    self.current_state = new_state
+                    self.update_ui()
 
 
     def update_ui(self):
         self.draw_grid()
         
-        print(self.current_state[0])
         if self.current_state[0] == PLAYER:
             self.label.config(text = "C'est à votre tour de jouer")
         else:
@@ -123,8 +125,9 @@ class TeekoUI:
                     self.can.create_oval(x * 101.5 + 5,y * 101.5 + 5,x * 101.5 + 95,y * 101.5 + 95, fill=None, width=4, outline='SteelBlue1')
 
     def reset_game(self):
-        print(self.current_state)
-
+        self.current_state = (-1, [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]])
+        self.update_ui()
+        # TODO stopper le thread de recherche
 
 if __name__ == "__main__":
     tui = TeekoUI()
