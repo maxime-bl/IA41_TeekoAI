@@ -158,7 +158,7 @@ class Teeko:
         return res
 
     def is_final(self, state) -> bool:
-        if abs(eval(state) >= 10000):
+        if abs(self.eval(state)) >= 10000:
             return True
         else:
             return False

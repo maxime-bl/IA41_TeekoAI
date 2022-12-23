@@ -35,7 +35,7 @@ class TeekoUI:
 
     def on_canvas_click(self, event):
         # ignores clicks on the canvas when the AI is playing
-        if self.current_state[0] == PLAYER:
+        if self.current_state[0] == PLAYER and not self.teeko.is_final(self.current_state):
 
             # coordinates of the cell in the grid
             x = int(event.x/101)
@@ -45,7 +45,6 @@ class TeekoUI:
 
             # when the game is in the second phase
             if self.teeko.count_pieces(self.current_state) == [4,4]:
-                # if the player clicks on one of his pieces
                 if (grid[x][y] == PLAYER):
                     # unselects the selected piece
                     if self.selected == (x,y):
@@ -63,17 +62,12 @@ class TeekoUI:
                     self.selected = UNSELECTED
                     self.current_state = (AI,grid)
                     self.update_ui()
-
-                    # let the AI play
-                    _, new_state = minmax(self.teeko, self.current_state, 4)
-                    self.current_state = new_state
-                    self.update_ui()
+                    # lets the AI play
+                    self.get_ai_move()
 
                 else:
                     self.selected = UNSELECTED
                     self.update_ui()
-
-
 
             # when the game is in the first phase
             else :
@@ -81,20 +75,25 @@ class TeekoUI:
                     grid[x][y] = PLAYER
                     self.current_state = (AI,grid)
                     self.update_ui()
-
                     # lets the AI play
-                    _, new_state = minmax(self.teeko, self.current_state, 4)
-                    self.current_state = new_state
-                    self.update_ui()
+                    self.get_ai_move()
 
 
     def update_ui(self):
         self.draw_grid()
         
-        if self.current_state[0] == PLAYER:
-            self.label.config(text = "C'est à votre tour de jouer")
+        if self.teeko.is_final(self.current_state):
+            if self.current_state[0] == PLAYER:
+                self.label.config(text = "Victoire de l'IA", fg='firebrick1')
+            else:
+                self.label.config(text = "Victoire du joueur", fg='green2')
         else:
-            self.label.config(text = "L'ordinateur est en train de jouer")
+            if self.current_state[0] == PLAYER:
+                self.label.config(text = "C'est à votre tour de jouer", fg='white')
+            else:
+                self.label.config(text = "L'ordinateur est en train de jouer", fg='gold')
+
+            self.root.update()
 
 
     def draw_grid(self):
@@ -127,7 +126,13 @@ class TeekoUI:
     def reset_game(self):
         self.current_state = (-1, [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]])
         self.update_ui()
-        # TODO stopper le thread de recherche
+
+
+    def get_ai_move(self):
+        if not self.teeko.is_final(self.current_state):
+            _, new_state = minmax(self.teeko, self.current_state, 4)
+            self.current_state = new_state
+            self.update_ui()
 
 if __name__ == "__main__":
     tui = TeekoUI()
