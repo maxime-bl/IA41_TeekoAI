@@ -4,8 +4,14 @@ from Helper import range2D, print_state
 
 PLAYER = -1
 AI = 1
+difficulty = ''
 
 class Teeko:  
+
+    def change_difficulty(self, diff):
+        global difficulty
+        difficulty = diff
+        
 
     def count_pieces(self, state) -> list:
         grid = state[1]
@@ -103,11 +109,19 @@ class Teeko:
 
         if abs(score) < 10000:
             for i, sign in [(0, AI), (1, PLAYER)]:
-                score = score + (square_completion[i]**2) * sign
+                match(difficulty):
+                    case 'f':
+                        t=-2
+                    case 'm':
+                        t=-0.5
+                    case 'd':
+                        t=1
+            
+                score = score + (square_completion[i]**2) * sign*t
                 score = score + (h_line_completion[i]**2) * sign
-                score = score + (v_line_completion[i]**2) * sign
+                score = score + (v_line_completion[i]**2) * sign*t
                 score = score + 2*(d_line_completion[i]**2) * sign
-                score = score + -2*dist_from_center[i] * sign
+                score = score + -2*dist_from_center[i] * sign 
 
         if print_details:
             print("max horizontal line : ", h_line_completion)
