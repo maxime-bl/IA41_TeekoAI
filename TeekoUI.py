@@ -2,21 +2,60 @@ import tkinter as tk
 from Minmax import minmax
 from Teeko import Teeko, PLAYER, AI
 
-
 UNSELECTED = (-1,-1)
 EMPTY = 0
-
 class TeekoUI:
 
+    
+
     def __init__(self) -> None:
+        
+
+
         self.teeko = Teeko()
         # self.current_state = (-1, [[1, 0, 0, 0, 0], [0, 0, 0, 0, -1], [0, 1, 1, 0, 0], [0, -1, 0, 1, 0], [-1, 0, -1, 0, 0]])
         self.current_state = (-1, [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]])
         self.selected = UNSELECTED
 
+        DIFFCHOICE = tk.Tk()
+        DIFFCHOICE.title('choix de la difficulté')
+        DIFFCHOICE.configure(bg='grey16')
+        width=400
+        height=400
+        screenwidth= DIFFCHOICE.winfo_screenwidth()
+        screenheight=DIFFCHOICE.winfo_screenheight()
+        alignstr='%dx%d+%d+%d' %(width, height, (screenwidth-width)/2,(screenheight-height)/2)
+        DIFFCHOICE.geometry(alignstr)
+
+        def facile():
+            self.teeko.change_difficulty('f')
+            DIFFCHOICE.destroy()
+
+        def moyen():
+            self.teeko.change_difficulty('m')
+            DIFFCHOICE.destroy()
+
+        def difficile():
+            self.teeko.change_difficulty('d')
+            DIFFCHOICE.destroy()
+
+        tk.Label(DIFFCHOICE, text='Choisissez votre difficulté',fg='white',bg='grey16',width=200,height=10).pack()
+        tk.Button(DIFFCHOICE, text='facile',bg='white',fg='grey16',width=20,height=2,command=facile).pack()
+        tk.Button(DIFFCHOICE, text='moyen',bg='white',fg='grey16',width=20,height=2,command=moyen).pack()
+        tk.Button(DIFFCHOICE, text='difficile',bg='white',fg='grey16',width=20,height=2,command=difficile).pack()
+        DIFFCHOICE.mainloop()
+
+    
+
         self.root = tk.Tk()
         self.root.configure(background='grey16')
         self.root.title("Teeko")
+        width=530
+        height=680
+        screenwidth_teeko= self.root.winfo_screenwidth()
+        screenheight_teeko=self.root.winfo_screenheight()
+        alignstr_teeko='%dx%d+%d+%d' %(width, height, (screenwidth_teeko-width)/2,(screenheight_teeko-height)/2)
+        self.root.geometry(alignstr_teeko)
 
         self.can = tk.Canvas(self.root, width=508, height=508, bg='grey10', border=0)
         self.can.grid(column=0, row= 1, padx=10)
