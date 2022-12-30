@@ -1,6 +1,7 @@
 import tkinter as tk
 from Minmax import minmax
 from Teeko import Teeko, PLAYER, AI
+from random import choice
 
 UNSELECTED = (-1,-1)
 EMPTY = 0
@@ -28,15 +29,15 @@ class TeekoUI:
         DIFFCHOICE.geometry(alignstr)
 
         def facile():
-            self.teeko.change_difficulty('f')
+            self.teeko.set_difficulty('f')
             DIFFCHOICE.destroy()
 
         def moyen():
-            self.teeko.change_difficulty('m')
+            self.teeko.set_difficulty('m')
             DIFFCHOICE.destroy()
 
         def difficile():
-            self.teeko.change_difficulty('d')
+            self.teeko.set_difficulty('d')
             DIFFCHOICE.destroy()
 
         tk.Label(DIFFCHOICE, text='Choisissez votre difficulté',fg='white',bg='grey16',width=200,height=10).pack()
@@ -169,7 +170,13 @@ class TeekoUI:
 
     def get_ai_move(self):
         if not self.teeko.is_final(self.current_state):
-            _, new_state = minmax(self.teeko, self.current_state, 4)
+            if self.teeko.get_difficulty() == 'd':
+                _, new_state = minmax(self.teeko, self.current_state, 4)
+            elif self.teeko.get_difficulty == 'm':
+                _, new_state = minmax(self.teeko, self.current_state, 2)
+            else:
+                _, new_state = minmax(self.teeko, self.current_state, 1)
+
             self.current_state = new_state
             self.update_ui()
 

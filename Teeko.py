@@ -4,13 +4,19 @@ from Helper import range2D, print_state
 
 PLAYER = -1
 AI = 1
-difficulty = ''
 
 class Teeko:  
 
-    def change_difficulty(self, diff):
-        global difficulty
-        difficulty = diff
+    def __init__(self) -> None:
+        difficulty = ''
+
+
+    def set_difficulty(self, diff):
+        self.difficulty = diff
+
+
+    def get_difficulty(self) -> chr:
+        return self.difficulty
         
 
     def count_pieces(self, state) -> list:
@@ -109,7 +115,7 @@ class Teeko:
 
         if abs(score) < 10000:
             for i, sign in [(0, AI), (1, PLAYER)]:
-                match(difficulty):
+                match(self.difficulty):
                     case 'f':
                         t=-2
                     case 'm':
